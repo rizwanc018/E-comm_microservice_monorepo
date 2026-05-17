@@ -172,6 +172,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -239,6 +242,9 @@ importers:
       hono:
         specifier: ^4.12.18
         version: 4.12.18
+      stripe:
+        specifier: ^22.1.1
+        version: 22.1.1(@types/node@20.19.41)
     devDependencies:
       '@repo/types':
         specifier: workspace:*
@@ -356,7 +362,14 @@ importers:
         version: 7.8.0(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@6.0.3)
 
   packages/types:
+    dependencies:
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
+      '@repo/product-db':
+        specifier: workspace:*
+        version: link:../product-db
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -3522,6 +3535,15 @@ packages:
   strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+
+  stripe@22.1.1:
+    resolution: {integrity: sha512-cmodIYP27tBkJ8G7DuGgWw0PFuemlFZbuF3Wwr1TrjFjUa3T7NIgCe6TVwX8BO2ynu+xtTuDGfHafNDCPt9lXA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   styled-jsx@5.1.6:
     resolution: {integrity: sha512-qSVyDTeMotdvQYoHWLNGwRFJHC+i+ZvdBRYosOFgC+Wg1vx4frN2/RG/NA7SYqqvKNLf39P2LSRA2pu6n0XYZA==}
@@ -7096,6 +7118,10 @@ snapshots:
       es-object-atoms: 1.1.1
 
   strip-json-comments@3.1.1: {}
+
+  stripe@22.1.1(@types/node@20.19.41):
+    optionalDependencies:
+      '@types/node': 20.19.41
 
   styled-jsx@5.1.6(react@19.1.0):
     dependencies:

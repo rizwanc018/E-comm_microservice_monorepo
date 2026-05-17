@@ -1,7 +1,7 @@
 import { clerkMiddleware } from "@hono/clerk-auth";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { userAuthMiddleware } from "./middleware/authMiddleware.js";
+import { userAuthMiddleware } from "./middleware/authMiddleware";
 
 const app = new Hono();
 app.use("*", clerkMiddleware());

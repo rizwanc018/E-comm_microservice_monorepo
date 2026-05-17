@@ -1,79 +1,38 @@
-import { ProductsType } from "@/types";
+import { ProductType } from "@repo/types";
 import Link from "next/link";
 import Categories from "./Categories";
 import Filter from "./Filter";
 import ProductCard from "./ProductCard";
 
-// TEMPORARY
-const products: ProductsType = [
-    {
-        id: 1,
-        name: "Adidas CoreFit T-Shirt",
-        shortDescription: "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        description:
-            "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        price: 39.9,
-        sizes: ["s", "m", "l", "xl", "xxl"],
-        colors: ["red", "green"],
-        images: {
-            red: "/products/1r.png",
-            green: "/products/1gr.png",
-        },
-    },
-    {
-        id: 2,
-        name: "Puma Ultra Warm Zip",
-        shortDescription: "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        description:
-            "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        price: 59.9,
-        sizes: ["s", "m", "l", "xl"],
-        colors: ["white", "black"],
-        images: { white: "/products/2w.png", black: "/products/2b.png" },
-    },
-    {
-        id: 3,
-        name: "Nike Air Essentials Pullover",
-        shortDescription: "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        description:
-            "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        price: 69.9,
-        sizes: ["s", "m", "l"],
-        colors: ["green", "white"],
-        images: {
-            green: "/products/3g.png",
-            white: "/products/3w.png",
-        },
-    },
-    {
-        id: 4,
-        name: "Nike Dri Flex T-Shirt",
-        shortDescription: "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        description:
-            "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        price: 29.9,
-        sizes: ["s", "m", "l"],
-        colors: ["gray", "blue"],
-        images: { gray: "/products/4g.png", blue: "/products/4b.png" },
-    },
-    {
-        id: 5,
-        name: "Under Armour StormFleece",
-        shortDescription: "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        description:
-            "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-        price: 49.9,
-        sizes: ["s", "m", "l"],
-        colors: ["red", "orange", "black"],
-        images: {
-            red: "/products/5r.png",
-            orange: "/products/5o.png",
-            black: "/products/5bl.png",
-        },
-    },
-];
-
-const ProductList = ({ category, params }: { category: string; params: "homepage" | "products" }) => {
+const fetchData = async ({
+    category,
+    sort,
+    search,
+    params,
+}: {
+    category?: string;
+    sort?: string;
+    search?: string;
+    params: "homepage" | "products";
+}) => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products?${category ? `category=${category}` : ""}${search ? `&search=${search}` : ""}&sort=${sort || "newest"}${params === "homepage" ? "&limit=8" : ""}`,
+    );
+    const data: ProductType[] = await res.json();
+    return data;
+};
+const ProductList = async ({
+    category,
+    sort,
+    search,
+    params,
+}: {
+    category: string;
+    sort?: string;
+    search?: string;
+    params: "homepage" | "products";
+}) => {
+    const products = await fetchData({ category, sort, search, params });
     return (
         <div className="w-full">
             <Categories />
