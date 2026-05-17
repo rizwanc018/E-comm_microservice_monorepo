@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import { prisma, Prisma } from "@repo/product-db";
+import { Request, Response } from "express";
 // import { producer } from "../utils/kafka";
 // import { StripeProductType } from "@repo/types";
 
@@ -58,7 +58,20 @@ export const deleteProduct = async (req: Request, res: Response) => {
 };
 
 export const getProducts = async (req: Request, res: Response) => {
-    const { category, search } = req.query;
+    const { sort, category, search, limit } = req.query;
+
+    const orderBy = (() => {
+        switch (sort) {
+            case "asc":
+                return { price: Prisma.SortOrder.asc };
+            case "desc":
+                return { price: Prisma.SortOrder.desc };
+            case "oldest":
+                return { createdAt: Prisma.SortOrder.asc };
+            default:
+                return { createdAt: Prisma.SortOrder.desc };
+        }
+    })();
 
     const products = await prisma.product.findMany({
         where: {
@@ -70,6 +83,8 @@ export const getProducts = async (req: Request, res: Response) => {
                 mode: "insensitive",
             },
         },
+        orderBy,
+        take: limit ? Number(limit) : undefined,
     });
 
     res.status(200).json(products);
