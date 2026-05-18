@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { userAuthMiddleware } from "./middleware/authMiddleware";
 import sessionRoute from "./routes/session.route";
+import webhookRoute from "./routes/webhooks.route";
 
 const app = new Hono();
 app.use("*", clerkMiddleware());
@@ -24,7 +25,7 @@ app.get("/test", userAuthMiddleware, async (c) => {
 });
 
 app.route("/sessions", sessionRoute);
-// app.route("/webhooks", webhookRoute);
+app.route("/webhooks", webhookRoute);
 
 const start = async () => {
     try {
