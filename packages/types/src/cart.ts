@@ -22,6 +22,8 @@ export const shippingFormSchema = z.object({
         .regex(/^\d+$/, "Phone number must contain only numbers!"),
     address: z.string().min(1, "Address is required!"),
     city: z.string().min(1, "City is required!"),
+    state: z.string().min(1, "State is required!"),
+    postalCode: z.string().min(1, "Postal code is required!"),
 });
 
 export type ShippingFormInputs = z.infer<typeof shippingFormSchema>;
