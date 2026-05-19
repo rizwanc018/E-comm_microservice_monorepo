@@ -1,8 +1,10 @@
 import { clerkPlugin } from "@clerk/fastify";
 import { connectOrderDB } from "@repo/order-db";
 import Fastify from "fastify";
-import { userAuthMiddleware } from "./middleware/authMiddleware.js";
-import { orderRoute } from "./routes/order.js";
+import { userAuthMiddleware } from "./middleware/authMiddleware";
+import { orderRoute } from "./routes/order";
+import { consumer, producer } from "./utils/kafka";
+import { runKafkaSubscriptions } from "./utils/subscription";
 
 const fastify = Fastify({
     logger: true,
@@ -36,7 +38,8 @@ fastify.register(orderRoute);
 
 const start = async () => {
     try {
-        await connectOrderDB();
+        Promise.all([await connectOrderDB(), await producer.connect(), await consumer.connect()]);
+        await runKafkaSubscriptions();
         await fastify.listen({ port: 8001 });
         console.log("Order service is running on port 8001");
     } catch (err) {
