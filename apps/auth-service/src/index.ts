@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import { adminAuthMiddleware } from "./middleware/authMiddleware";
 import userRoute from "./routes/user.route";
+import { producer } from "./utils/kafka";
 // import { producer } from "./utils/kafka.js";
 
 const app = express();
@@ -32,7 +33,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 const start = async () => {
     try {
-        // await producer.connect();
+        await producer.connect();
         app.listen(8003, () => {
             console.log("Auth service is running on 8003");
         });

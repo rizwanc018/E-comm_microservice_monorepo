@@ -4,6 +4,7 @@ import { producer } from "./kafka";
 
 export const createOrder = async (order: OrderType) => {
     const newOrder = new Order(order);
+    console.log("SENDING ORDER EMAIL");
 
     try {
         const order = await newOrder.save();
