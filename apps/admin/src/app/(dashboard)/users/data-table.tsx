@@ -1,22 +1,24 @@
 "use client";
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    SortingState,
+    useReactTable,
 } from "@tanstack/react-table";
 
 import { DataTablePagination } from "@/components/TablePagination";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAuth } from "@clerk/nextjs";
-// import { useMutation } from "@tanstack/react-query";
+import { User } from "@clerk/nextjs/server";
+import { useMutation } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -44,44 +46,44 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     const { getToken } = useAuth();
     const router = useRouter();
 
-    // const mutation = useMutation({
-    //     mutationFn: async () => {
-    //         const token = await getToken();
-    //         const selectedRows = table.getSelectedRowModel().rows;
+    const mutation = useMutation({
+        mutationFn: async () => {
+            const token = await getToken();
+            const selectedRows = table.getSelectedRowModel().rows;
 
-    //         Promise.all(
-    //             selectedRows.map(async (row) => {
-    //                 const userId = (row.original as User).id;
-    //                 const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, {
-    //                     method: "DELETE",
-    //                     headers: {
-    //                         Authorization: `Bearer ${token}`,
-    //                     },
-    //                 });
-    //             }),
-    //         );
-    //     },
-    //     onSuccess: () => {
-    //         toast.success("User(s) deleted successfully");
-    //         router.refresh();
-    //     },
-    //     onError: (error) => {
-    //         toast.error(error.message);
-    //     },
-    // });
+            Promise.all(
+                selectedRows.map(async (row) => {
+                    const userId = (row.original as User).id;
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, {
+                        method: "DELETE",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                }),
+            );
+        },
+        onSuccess: () => {
+            toast.success("User(s) deleted successfully");
+            router.refresh();
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+    });
 
     return (
         <div className="rounded-md border">
             {Object.keys(rowSelection).length > 0 && (
                 <div className="flex justify-end">
-                    {/* <button
+                    <button
                         className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 text-sm rounded-md m-4 cursor-pointer"
                         onClick={() => mutation.mutate()}
                         disabled={mutation.isPending}
                     >
                         <Trash2 className="w-4 h-4" />
                         {mutation.isPending ? "Deleting" : "Delete User(s)"}
-                    </button> */}
+                    </button>
                 </div>
             )}
             <Table>
