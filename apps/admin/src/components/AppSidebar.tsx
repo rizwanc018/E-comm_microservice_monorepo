@@ -1,15 +1,15 @@
 import {
-  Calendar,
-  ChevronUp,
-  Home,
-  Inbox,
-  Plus,
-  Search,
-  Settings,
-  Shirt,
-  ShoppingBasket,
-  User,
-  User2,
+    Calendar,
+    ChevronUp,
+    Home,
+    Inbox,
+    Plus,
+    Search,
+    Settings,
+    Shirt,
+    ShoppingBasket,
+    User,
+    User2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,19 +20,19 @@ import AddUser from "./AddUser";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Sheet, SheetTrigger } from "./ui/sheet";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarSeparator,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupAction,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuBadge,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarSeparator,
 } from "./ui/sidebar";
 
 const items = [
@@ -71,8 +71,8 @@ const AppSidebar = () => {
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
                             <Link href="/">
-                                <Image src="/avatar.svg" alt="logo" width={20} height={20} />
-                                <span>E-Commerce</span>
+                                <Image src="/logo.svg" alt="logo" width={20} height={20} />
+                                <span>Lama Dev</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -188,9 +188,9 @@ const AppSidebar = () => {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/users">
+                                    <Link href="/orders">
                                         <ShoppingBasket />
-                                        See All Transactions
+                                        See All Orders
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
